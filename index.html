@@ -2,46 +2,58 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>¿Quieres ser mi San Valentín? 💘</title>
+  <title>Para mi esposa 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #7f7fd5, #86a8e7, #91eae4);
       font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      max-width: 350px;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      overflow-x: hidden;
     }
 
     h1 {
-      margin-bottom: 10px;
+      text-align: center;
+      padding: 30px 15px 10px;
+      font-size: 2.2rem;
+      color: #b91c1c;
     }
 
-    p {
+    .gallery {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .item {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 40px;
+      align-items: center;
+    }
+
+    .item img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+
+    .item p {
       font-size: 18px;
-      margin-bottom: 25px;
+      line-height: 1.5;
     }
 
     .buttons {
+      text-align: center;
+      margin: 50px 0;
       position: relative;
       height: 60px;
     }
 
     button {
-      padding: 12px 22px;
+      padding: 12px 25px;
       font-size: 16px;
       border: none;
       border-radius: 30px;
@@ -49,57 +61,104 @@
     }
 
     #yes {
-      background: #ff5e7e;
+      background: #ef4444;
       color: white;
-      margin-right: 10px;
     }
 
     #no {
-      background: #d1d5db;
+      background: #e5e7eb;
       position: absolute;
+    }
+
+    /* Corazones y pétalos */
+    .floating {
+      position: fixed;
+      top: -10px;
+      font-size: 24px;
+      animation: fall linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>¡Hola amor! 💕</h1>
-    <p>¿Quieres ser mi San Valentín?</p>
 
-    <div class="buttons">
-      <button id="yes" onclick="acepta()">Sí, claro que sí 💖</button>
-      <button id="no">No</button>
-    </div>
+  <h1>💖 Para mi esposa, corazón 💖</h1>
+
+  <div class="gallery">
+    <div class="item"><img src="foto1.jpg"><p>ESCRIBE TU TEXTO 1</p></div>
+    <div class="item"><img src="foto2.jpg"><p>ESCRIBE TU TEXTO 2</p></div>
+    <div class="item"><img src="foto3.jpg"><p>ESCRIBE TU TEXTO 3</p></div>
+    <div class="item"><img src="foto4.jpg"><p>ESCRIBE TU TEXTO 4</p></div>
+    <div class="item"><img src="foto5.jpg"><p>ESCRIBE TU TEXTO 5</p></div>
+    <div class="item"><img src="foto6.jpg"><p>ESCRIBE TU TEXTO 6</p></div>
   </div>
 
-  <script>
-    const noBtn = document.getElementById("no");
+  <div class="buttons">
+    <button id="yes" onclick="acepta()">Sí 💘</button>
+    <button id="no">No</button>
+  </div>
 
+  <!-- AUDIO -->
+  <audio id="song" src="loversrock.mp3"></audio>
+  <audio id="voice" src="mivoz.mp3"></audio>
+
+  <script>
+    /* Botón NO escapa */
+    const noBtn = document.getElementById("no");
     noBtn.addEventListener("mouseover", () => {
-      const x = Math.random() * (window.innerWidth - 120);
-      const y = Math.random() * (window.innerHeight - 60);
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
+      noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+      noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
     });
+
+    /* Música + audio */
+    const song = document.getElementById("song");
+    const voice = document.getElementById("voice");
+
+    window.addEventListener("click", () => {
+      song.volume = 0.8;
+      song.play();
+
+      // A los 30 segundos entra tu audio
+      setTimeout(() => {
+        song.volume = 0.25; // baja la música
+        voice.play();
+
+        voice.onended = () => {
+          song.volume = 0.8; // vuelve a subir la música
+        };
+      }, 30000);
+    }, { once: true });
+
+    /* Corazones y pétalos */
+    const symbols = ["💖","💘","💕","💞","💓","💗","🌸","🌸","🌸"]; 
+
+    setInterval(() => {
+      const el = document.createElement("div");
+      el.className = "floating";
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = Math.random() * 100 + "vw";
+      el.style.animationDuration = 5 + Math.random() * 5 + "s";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 10000);
+    }, 400);
 
     function acepta() {
       document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          text-align:center;
-          background:linear-gradient(135deg,#ff9a9e,#fad0c4);
-          font-family:Arial;
-        ">
+        <div style="height:100vh;display:flex;justify-content:center;align-items:center;text-align:center;background:linear-gradient(135deg,#ff9a9e,#fad0c4)">
           <div>
-            <h1>💘 Sabía que dirías que sí 💘</h1>
-            <p>Eres lo mejor que me ha pasado</p>
+            <img src="final.jpg" style="width:220px;border-radius:20px"><n            <h1>ESCRIBE TU MENSAJE FINAL AQUÍ 💖</h1>
           </div>
-        </div>
-      `;
+        </div>`;
     }
   </script>
+
 </body>
 </html>
